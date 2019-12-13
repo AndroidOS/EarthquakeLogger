@@ -28,6 +28,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         loading.value = true
         error_loading.value = false
         fetchFromRemote()
+
     }
 
 
