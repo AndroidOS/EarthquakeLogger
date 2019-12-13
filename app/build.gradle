@@ -23,6 +23,10 @@ android {
     }
 }
 
+def retrofitVersion = '2.3.0'
+def rxJavaVersion = '2.1.1'
+def lifeCycleExtensionVersion = '2.1.0'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -37,7 +41,17 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
 
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifeCycleExtensionVersion"
+
 }
 
 apply plugin: 'com.google.gms.google-services'
