@@ -3,9 +3,11 @@ package com.casa.azul.dogs.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.casa.azul.earthquakelogger.R
 import com.casa.azul.earthquakelogger.model.Feature
+import com.casa.azul.earthquakelogger.view.ListFragmentDirections
 import kotlinx.android.synthetic.main.quake_item.view.*
 
 
@@ -36,10 +38,13 @@ class QuakeListAdapter(val quakeList: ArrayList<Feature>) :
 
 
         holder.view.setOnClickListener {
-
+            val action = ListFragmentDirections.actionListFragmentToDetailFragment(position)
+            Navigation.findNavController(it)
+                .navigate(action)
         }
 
         holder.view.tv_quake_text.text = quakeList[position].properties?.place.toString()
+        holder.view.tv_mag_txt.text = quakeList[position].properties?.mag.toString()
 
 
     }

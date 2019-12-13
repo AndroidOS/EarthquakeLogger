@@ -24,11 +24,16 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     val error_loading = MutableLiveData<Boolean>()
 
 
+
     fun refresh() {
         loading.value = true
         error_loading.value = false
         fetchFromRemote()
+    }
 
+    fun getDetailQuake(i: Int): Feature {
+
+        return quakes.value!![i]
     }
 
 
