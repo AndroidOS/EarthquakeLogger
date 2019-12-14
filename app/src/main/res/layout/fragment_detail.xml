@@ -6,15 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".view.DetailFragment">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!--    <fragment-->
+    <!--        android:id="@+id/mapDetail"-->
+    <!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="300dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        tools:context=".model.MapsActivity" />-->
+
+    <!--    class="com.google.android.gms.maps.MapFragment"-->
+    <!--    android:name="com.google.android.gms.maps.SupportMapFragment"-->
+
+
+    <com.google.android.gms.maps.MapView
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:id="@+id/mapDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".model.MapsActivity" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map" />
+        app:layout_constraintTop_toBottomOf="@+id/mapDetail" />
 
 
     <!--    tools:context=".view.MainActivity"-->

@@ -15,9 +15,7 @@ import com.casa.azul.earthquakelogger.R
 import com.casa.azul.earthquakelogger.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class ListFragment : Fragment() {
 
     private lateinit var viewModel: ListViewModel
