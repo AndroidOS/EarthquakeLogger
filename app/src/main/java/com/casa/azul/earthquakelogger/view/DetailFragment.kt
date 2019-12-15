@@ -18,10 +18,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_detail.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 private const val TAG = "DetailFragment"
 
+const val DayInMilliSec = 86400000
 class DetailFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var detailQuake: Feature
@@ -52,12 +55,9 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
         detailQuake = viewModel.getDetailQuake(quakeNumber)
 
-
-
         mapDetail.onCreate(null)
         mapDetail.onResume()
         mapDetail.getMapAsync(this)
-
 
     }
 
@@ -66,14 +66,37 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         map = googleMap
 
         Log.d(TAG, "on Map ready")
-       
-        val quakeLtLn = LatLng(
-            detailQuake.geometry?.coordinates?.get(1)!!,
-            detailQuake.geometry?.coordinates!![0]
-        )
 
-        map.addMarker(MarkerOptions().position(quakeLtLn).title(detailQuake.properties?.place.toString()))
-        map.moveCamera(CameraUpdateFactory.newLatLng(quakeLtLn))
+        if (detailQuake != null) {
+            val quakeLtLn = LatLng(
+                detailQuake.geometry?.coordinates?.get(1)!!,
+                detailQuake.geometry?.coordinates!![0]
+            )
+
+            map.addMarker(MarkerOptions().position(quakeLtLn).title(detailQuake.properties?.place.toString()))
+            map.moveCamera(CameraUpdateFactory.newLatLng(quakeLtLn))
+
+            val quakeTime = getDateTime(detailQuake.properties?.time.toString())
+
+            tv_quake_detail.text = "Place: ${detailQuake.properties?.place}\n" +
+                    "Mag: ${detailQuake.properties?.mag.toString()}\n" +
+                    "Time: $quakeTime"
+        }
+    }
+
+
+    private fun getDateTime(s: String): String? {
+        return try {
+            val sdf = SimpleDateFormat("yyyy/MM/dd hh:mm") //MM/dd/yyyy
+            val netDate = Date(s.toLong()).addDays(1)
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
+        }
+    }
+
+    fun Date.addDays(numberOfDaysToAdd: Int): Date {
+        return Date(this.time + numberOfDaysToAdd * DayInMilliSec)
     }
 
 
