@@ -16,7 +16,7 @@ class QuakeApiService {
         .build()
         .create(QuakeApi::class.java)
 
-    fun getMovies(): Single<RootObject> {
+    fun getQuakes(): Single<RootObject> {
         return api.getQuakes()
     }
 

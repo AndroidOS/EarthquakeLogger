@@ -31,6 +31,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
     fun refresh() {
         getUTCDate()
+        getPreviousDayDate()
         loading.value = true
         error_loading.value = false
         fetchFromRemote()
@@ -44,7 +45,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     private fun fetchFromRemote() {
         loading.value = true
         disposable.add(
-            movieService.getMovies()
+            movieService.getQuakes()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<RootObject>() {
@@ -82,6 +83,22 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         Log.d(TAG, "$utcTime")
         return utcTime
 
+    }
+
+    private fun getPreviousDayDate(): String {
+
+        val dayMilliseconds = 24 * 60 * 60 * 1000
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
+        var timeInMili = calendar.timeInMillis
+
+        timeInMili -= dayMilliseconds
+
+        val format = "yyyy-MM-dd"
+        val sdf = SimpleDateFormat(format)
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        val utcTime = sdf.format(timeInMili)
+        Log.d(TAG, "$utcTime")
+        return ""
     }
 
 
