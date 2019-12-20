@@ -45,7 +45,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     private fun fetchFromRemote() {
         loading.value = true
         disposable.add(
-            movieService.getQuakes()
+            movieService.getQuakes1(getPreviousDayDate(), getUTCDate())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<RootObject>() {
@@ -98,7 +98,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         sdf.timeZone = TimeZone.getTimeZone("UTC")
         val utcTime = sdf.format(timeInMili)
         Log.d(TAG, "$utcTime")
-        return ""
+        return utcTime
     }
 
 

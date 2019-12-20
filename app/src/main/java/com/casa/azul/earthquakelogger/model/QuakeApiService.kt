@@ -20,4 +20,8 @@ class QuakeApiService {
         return api.getQuakes()
     }
 
+    fun getQuakes1(startDate: String, endDate: String): Single<RootObject> {
+        return api.getQuakes1("geojson", startDate, endDate)
+    }
+
 }
