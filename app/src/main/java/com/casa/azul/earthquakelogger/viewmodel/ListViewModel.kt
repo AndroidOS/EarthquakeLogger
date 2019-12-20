@@ -11,6 +11,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 private const val TAG = "ListViewModel"
 
@@ -27,13 +30,13 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
 
 
     fun refresh() {
+        getUTCDate()
         loading.value = true
         error_loading.value = false
         fetchFromRemote()
     }
 
     fun getDetailQuake(i: Int): Feature {
-
         return quakes.value!![i]
     }
 
@@ -68,6 +71,17 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     override fun onCleared() {
         super.onCleared()
         disposable.clear()
+    }
+
+    private fun getUTCDate(): String {
+        val format = "yyyy-MM-dd"
+        val sdf = SimpleDateFormat(format)
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        val utcTime = sdf.format(Date())
+
+        Log.d(TAG, "$utcTime")
+        return utcTime
+
     }
 
 
