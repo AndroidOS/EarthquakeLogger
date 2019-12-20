@@ -22,6 +22,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     val quakes = MutableLiveData<List<Feature>>()
     val loading = MutableLiveData<Boolean>()
     val error_loading = MutableLiveData<Boolean>()
+    val menu_email = MutableLiveData<Boolean>()
 
 
 

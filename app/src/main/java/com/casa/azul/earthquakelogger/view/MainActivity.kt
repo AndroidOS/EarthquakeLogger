@@ -5,16 +5,22 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.casa.azul.earthquakelogger.R
+import com.casa.azul.earthquakelogger.viewmodel.ListViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: ListViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        viewModel = ViewModelProviders.of(this)[ListViewModel::class.java]
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -35,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_about -> {
                 showDialogue()
+                return true
+            }
+            R.id.action_email -> {
+                viewModel.menu_email.value = true
                 return true
             }
             else -> super.onOptionsItemSelected(item)

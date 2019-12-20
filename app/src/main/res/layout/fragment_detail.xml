@@ -2,27 +2,54 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.DetailFragment">
 
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapDetail"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:backgroundTint="@color/colorCard"
+        android:elevation="8dp"
+        android:paddingBottom="3dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_quake_detail"
-        android:layout_width="0dp"
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapDetail"
+            android:layout_width="match_parent"
+            android:layout_height="292dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="3dp"
+        android:backgroundTint="@color/colorCard"
+        android:elevation="8dp"
+        android:padding="8dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapDetail" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
+        <TextView
+            android:id="@+id/tv_quake_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/textColor"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

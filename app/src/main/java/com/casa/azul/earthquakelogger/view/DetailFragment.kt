@@ -6,14 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.casa.azul.earthquakelogger.R
 import com.casa.azul.earthquakelogger.model.Feature
 import com.casa.azul.earthquakelogger.viewmodel.ListViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -28,11 +29,12 @@ const val DayInMilliSec = 86400000
 class DetailFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var detailQuake: Feature
+    private lateinit var viewModel: ListViewModel
 
     private var quakeNumber = 0
     private lateinit var map: GoogleMap
-    private lateinit var mapView: MapView
-    private lateinit var view1: View
+//    private lateinit var mapView: MapView
+//    private lateinit var view1: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +46,13 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = activity?.run {
+            ViewModelProviders.of(this)[ListViewModel::class.java]
+        } ?: throw Exception("Invalid Activity")
+
+        observeViewModel()
+
 
         arguments?.let {
             quakeNumber = DetailFragmentArgs.fromBundle(it).uuid
@@ -59,6 +68,19 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         mapDetail.onResume()
         mapDetail.getMapAsync(this)
 
+    }
+
+    private fun observeViewModel() {
+
+        viewModel.menu_email.observe(this, Observer { isEmail ->
+            isEmail?.let {
+
+                if (it) {
+
+                    Toast.makeText(activity, "Menu selection", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
 
