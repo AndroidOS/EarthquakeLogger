@@ -31,6 +31,7 @@ def retrofitVersion = '2.3.0'
 def rxJavaVersion = '2.1.1'
 def lifeCycleExtensionVersion = '2.1.0'
 def navVersion = '2.1.0'
+def roomVersion = '2.2.1' //
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -57,6 +58,12 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifeCycleExtensionVersion"
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
 
 }
 
