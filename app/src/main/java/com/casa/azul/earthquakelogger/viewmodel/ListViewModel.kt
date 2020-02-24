@@ -49,6 +49,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<RootObject>() {
                     override fun onSuccess(quakeList: RootObject) {
+                        storeQuakesLocally(quakeList)
                         quakes.value = quakeList.features
                         error_loading.value = false
                         loading.value = false
@@ -73,8 +74,9 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         disposable.clear()
     }
 
-    private fun storeQuakesLocally(list: List<Quake1>) {
+    private fun storeQuakesLocally(quakeList: RootObject) {
         launch {
+            val list = createQuake1List(quakeList)
             val dao = QuakeDatabase(getApplication()).quakeDao()
             dao.deleteAllQuakes()
             val result = dao.insertAll(*list.toTypedArray())
@@ -116,6 +118,14 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         val utcTime = sdf.format(timeInMili)
         Log.d(TAG, "$utcTime")
         return utcTime
+    }
+
+    private fun createQuake1List(quakeList: RootObject): List<Quake1> {
+        var list = mutableListOf<Quake1>()
+        for (q in quakeList.features!!) {
+            list.add(Quake1(q.properties?.place.toString(), q.properties?.mag))
+        }
+        return list
     }
 
 
