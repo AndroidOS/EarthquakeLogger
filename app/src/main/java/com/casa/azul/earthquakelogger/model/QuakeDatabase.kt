@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = arrayOf(Quake1::class), version = 1)
 abstract class QuakeDatabase : RoomDatabase() {
-    abstract fun dogDao(): QuakeDao
+    abstract fun quakeDao(): QuakeDao
 
     companion object {
         @Volatile

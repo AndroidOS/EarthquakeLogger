@@ -4,13 +4,12 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.casa.azul.dogs.viewmodel.BaseViewModel
-import com.casa.azul.earthquakelogger.model.Feature
-import com.casa.azul.earthquakelogger.model.QuakeApiService
-import com.casa.azul.earthquakelogger.model.RootObject
+import com.casa.azul.earthquakelogger.model.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,6 +73,20 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         disposable.clear()
     }
 
+    private fun storeQuakesLocally(list: List<Quake1>) {
+        launch {
+            val dao = QuakeDatabase(getApplication()).quakeDao()
+            dao.deleteAllQuakes()
+            val result = dao.insertAll(*list.toTypedArray())
+            var i = 0
+            while (i < list.size) {
+                list[i].uuid = result[i].toInt()
+                ++i
+            }
+
+        }
+    }
+
     private fun getUTCDate(): String {
         val format = "yyyy-MM-dd"
         val sdf = SimpleDateFormat(format)
@@ -84,6 +97,10 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         return utcTime
 
     }
+
+
+
+
 
     private fun getPreviousDayDate(): String {
 
