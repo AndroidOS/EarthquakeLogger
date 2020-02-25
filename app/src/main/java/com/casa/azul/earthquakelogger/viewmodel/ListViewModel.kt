@@ -2,6 +2,7 @@ package com.casa.azul.earthquakelogger.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.casa.azul.dogs.viewmodel.BaseViewModel
 import com.casa.azul.earthquakelogger.model.*
@@ -74,6 +75,19 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         disposable.clear()
     }
 
+    private fun fetchFromDatabase() {
+        loading.value = true
+        launch {
+            val quakes = QuakeDatabase(getApplication()).quakeDao().getAllQuakes()
+
+            Toast.makeText(
+                getApplication(),
+                "Quakes retrieved from database. ${quakes.size} objects",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     private fun storeQuakesLocally(quakeList: RootObject) {
         launch {
             val list = createQuake1List(quakeList)
@@ -85,7 +99,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
                 list[i].uuid = result[i].toInt()
                 ++i
             }
-
+            fetchFromDatabase()
         }
     }
 
