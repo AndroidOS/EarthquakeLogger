@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.quake_item.view.*
 private const val TAG = "quakeListAdapter"
 
 class QuakeListAdapter(val quakeList: ArrayList<Feature>) :
-    RecyclerView.Adapter<QuakeListAdapter.MovieViewHolder>() {
+    RecyclerView.Adapter<QuakeListAdapter.QuakeViewHolder>() {
 
     fun updateQuakeList(newPhotosList: List<Feature>) {
         quakeList.clear()
@@ -23,18 +23,18 @@ class QuakeListAdapter(val quakeList: ArrayList<Feature>) :
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuakeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(
             R.layout.quake_item
             , parent, false
         )
-        return MovieViewHolder(view)
+        return QuakeViewHolder(view)
     }
 
     override fun getItemCount() = quakeList.size
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: QuakeViewHolder, position: Int) {
 
 
         holder.view.setOnClickListener {
@@ -49,5 +49,5 @@ class QuakeListAdapter(val quakeList: ArrayList<Feature>) :
 
     }
 
-    class MovieViewHolder(var view: View) : RecyclerView.ViewHolder(view)
+    class QuakeViewHolder(var view: View) : RecyclerView.ViewHolder(view)
 }

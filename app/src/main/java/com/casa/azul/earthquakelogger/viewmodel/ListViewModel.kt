@@ -26,6 +26,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
     val loading = MutableLiveData<Boolean>()
     val error_loading = MutableLiveData<Boolean>()
     val menu_email = MutableLiveData<Boolean>()
+    val quakes1List = MutableLiveData<List<Quake1>>()
 
 
 
@@ -79,6 +80,7 @@ class ListViewModel(application: Application) : BaseViewModel(application) {
         loading.value = true
         launch {
             val quakes = QuakeDatabase(getApplication()).quakeDao().getAllQuakes()
+            quakes1List.value = quakes
 
             Toast.makeText(
                 getApplication(),
