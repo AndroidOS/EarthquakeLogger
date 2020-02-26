@@ -1,7 +1,9 @@
 package com.casa.azul.earthquakelogger.view
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -78,9 +80,12 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
                 if (it) {
 
                     Toast.makeText(activity, "Menu selection", Toast.LENGTH_SHORT).show()
+                    sendEmail()
                 }
             }
         })
+
+
     }
 
 
@@ -119,6 +124,18 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
     fun Date.addDays(numberOfDaysToAdd: Int): Date {
         return Date(this.time + numberOfDaysToAdd * DayInMilliSec)
+    }
+
+    private fun sendEmail() {
+
+        val body = detailQuake.properties?.mag.toString()
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.type = "text/html"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, detailQuake.properties?.place)
+        //shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+        shareIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(body))
+        startActivity(Intent.createChooser(shareIntent, "GitJobs"))
     }
 
 
