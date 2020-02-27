@@ -1,11 +1,20 @@
 package com.casa.azul.earthquakelogger.view
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,12 +24,18 @@ import androidx.lifecycle.ViewModelProviders
 import com.casa.azul.earthquakelogger.R
 import com.casa.azul.earthquakelogger.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_list.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ListViewModel
+    private var bitmap: Bitmap? = null
+    var targetPdf: String = "/storage/emulated/0//pdffromlayoutview.pdf"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +45,15 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this)[ListViewModel::class.java]
         checkPermission()
         fab.setOnClickListener { view ->
-
+            loadBitmapFromView(
+                quake_recyclerView,
+                quake_recyclerView.width,
+                quake_recyclerView.height
+            )
+            createPdf()
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -151,4 +172,62 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
+    private fun createPdf() {
+        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        //  Display display = wm.getDefaultDisplay();
+        val displaymetrics = DisplayMetrics()
+        this.windowManager.defaultDisplay.getMetrics(displaymetrics)
+        val hight = displaymetrics.heightPixels.toFloat()
+        val width = displaymetrics.widthPixels.toFloat()
+
+        val convertHighet = hight.toInt()
+        val convertWidth = width.toInt()
+
+        val document = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create()
+        val page = document.startPage(pageInfo)
+
+        val canvas = page.canvas
+
+        val paint = Paint()
+        canvas.drawPaint(paint)
+
+        //bitmap = Bitmap.createScaledBitmap(bitmap!!, convertWidth, convertHighet, true)
+
+        paint.color = Color.BLUE
+        //canvas.drawBitmap(bitmap!!, 0f, 0f, null)
+        document.finishPage(page)
+
+        // write the document content
+
+        Log.d("target", targetPdf)
+        val filePath: File
+        filePath = File(targetPdf)
+        try {
+            document.writeTo(FileOutputStream(filePath))
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Something wrong: $e", Toast.LENGTH_LONG).show()
+        }
+
+        // close the document
+        document.close()
+        Toast.makeText(this, "PDF is created!!!", Toast.LENGTH_SHORT).show()
+
+    }
+
+    companion object {
+
+        fun loadBitmapFromView(v: View, width: Int, height: Int): Bitmap {
+            val b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val c = Canvas(b)
+            v.draw(c)
+
+            return b
+        }
+    }
+
+
 }
