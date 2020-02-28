@@ -24,7 +24,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.casa.azul.earthquakelogger.R
 import com.casa.azul.earthquakelogger.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_list.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -45,11 +44,11 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this)[ListViewModel::class.java]
         checkPermission()
         fab.setOnClickListener { view ->
-            loadBitmapFromView(
-                quake_recyclerView,
-                quake_recyclerView.width,
-                quake_recyclerView.height
-            )
+            //            loadBitmapFromView(
+//                quake_recyclerView,
+//                quake_recyclerView.width,
+//                quake_recyclerView.height
+//            )
             createPdf()
         }
     }
@@ -145,6 +144,7 @@ class MainActivity : AppCompatActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    createPdf()
                 } else {
                     Toast.makeText(this, "PDF creation not permitted", Toast.LENGTH_SHORT).show()
                 }

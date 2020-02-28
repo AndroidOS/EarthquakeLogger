@@ -47,18 +47,25 @@ class ListFragment : Fragment() {
     }
 
     fun observeViewModel() {
-        viewModel.quakes.observe(this, Observer { quakes ->
-            quakes?.let {
-                quake_recyclerView.visibility = View.VISIBLE
-                quakeListAdapter.updateQuakeList(quakes)
-            }
-        })
+//        viewModel.quakes.observe(this, Observer { quakes ->
+//            quakes?.let {
+//                quake_recyclerView.visibility = View.VISIBLE
+//                quakeListAdapter.updateQuakeList(quakes)
+//            }
+//        })
 
         viewModel.loading.observe(this, Observer { loading ->
             loading?.let {
                 if (loading) {
                     quake_progressBar.visibility = View.GONE
                 }
+            }
+        })
+
+        viewModel.quakes1List.observe(this, Observer { quakes ->
+            quakes?.let {
+                quake_recyclerView.visibility = View.VISIBLE
+                quakeListAdapter.updateQuakeList(quakes)
             }
         })
 

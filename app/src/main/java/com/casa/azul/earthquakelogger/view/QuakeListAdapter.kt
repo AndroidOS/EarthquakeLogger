@@ -6,19 +6,25 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.casa.azul.earthquakelogger.R
-import com.casa.azul.earthquakelogger.model.Feature
+import com.casa.azul.earthquakelogger.model.Quake1
 import com.casa.azul.earthquakelogger.view.ListFragmentDirections
 import kotlinx.android.synthetic.main.quake_item.view.*
 
 
 private const val TAG = "quakeListAdapter"
 
-class QuakeListAdapter(val quakeList: ArrayList<Feature>) :
+class QuakeListAdapter(val quakeList: ArrayList<Quake1>) :
     RecyclerView.Adapter<QuakeListAdapter.QuakeViewHolder>() {
 
-    fun updateQuakeList(newPhotosList: List<Feature>) {
+//    fun updateQuakeList(newPhotosList: List<Feature>) {
+//        quakeList.clear()
+//        quakeList.addAll(newPhotosList)
+//        notifyDataSetChanged()
+//    }
+
+    fun updateQuakeList(newQuakeList: List<Quake1>) {
         quakeList.clear()
-        quakeList.addAll(newPhotosList)
+        quakeList.addAll(newQuakeList)
         notifyDataSetChanged()
     }
 
@@ -43,9 +49,10 @@ class QuakeListAdapter(val quakeList: ArrayList<Feature>) :
                 .navigate(action)
         }
 
-        holder.view.tv_quake_text.text = quakeList[position].properties?.place.toString()
-        holder.view.tv_mag_txt.text = quakeList[position].properties?.mag.toString()
-
+//        holder.view.tv_quake_text.text = quakeList[position].properties?.place.toString()
+//        holder.view.tv_mag_txt.text = quakeList[position].properties?.mag.toString()
+        holder.view.tv_quake_text.text = quakeList[position].place.toString()
+        holder.view.tv_mag_txt.text = quakeList[position].mag.toString()
 
     }
 
